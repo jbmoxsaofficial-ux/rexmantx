@@ -1,0 +1,16 @@
+{
+  "name": "rexmants-wa-toolkit",
+  "version": "2.0.0",
+  "description": "REXMANT'X15 - WhatsApp Spam OTP & Pairing Flood",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "axios": "^1.6.0",
+    "qrcode-terminal": "^0.12.0",
+    "venom-bot": "^5.0.1",
+    "user-agents": "^1.1.0"
+  }
+}

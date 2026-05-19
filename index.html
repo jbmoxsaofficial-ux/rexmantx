@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>REXMANT'X15 - WA Banned Toolkit</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: #0a0a0a;
+            color: #00ff41;
+            font-family: 'Courier New', monospace;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            border: 2px solid #00ff41;
+            border-radius: 15px;
+            padding: 25px;
+            background: #0f0f0f;
+            box-shadow: 0 0 20px rgba(0,255,65,0.3);
+        }
+        h1 { text-align: center; margin-bottom: 10px; }
+        .sub { text-align: center; color: #888; margin-bottom: 30px; }
+        .card {
+            background: #151515;
+            border-left: 4px solid #00ff41;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+        input, button {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            background: #1a1a1a;
+            border: 1px solid #00ff41;
+            color: #00ff41;
+            font-family: monospace;
+            font-size: 14px;
+            border-radius: 5px;
+        }
+        button {
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+        button:hover {
+            background: #00ff41;
+            color: #0a0a0a;
+            box-shadow: 0 0 10px #00ff41;
+        }
+        .log {
+            background: #050505;
+            padding: 15px;
+            height: 200px;
+            overflow-y: auto;
+            font-size: 12px;
+            border-radius: 5px;
+            margin-top: 20px;
+            font-family: monospace;
+        }
+        .log div { margin: 5px 0; }
+        .success { color: #00ff41; }
+        .error { color: #ff4444; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>🔥 REXMANT'X15 🔥</h1>
+    <div class="sub">WhatsApp Banned Toolkit | REAL WORK | NO SIMULATION</div>
+    
+    <div class="card">
+        <h2>📱 SPAM OTP WHATSAPP</h2>
+        <input type="text" id="otpPhone" placeholder="Nomor target (contoh: 628123456789)">
+        <input type="number" id="otpAmount" placeholder="Jumlah spam (default 100)" value="100">
+        <button id="btnOtp">💣 START SPAM OTP</button>
+    </div>
+    
+    <div class="card">
+        <h2>🔐 SPAM PAIRING WHATSAPP</h2>
+        <input type="text" id="pairPhone" placeholder="Nomor target (628xxxxxxxxx)">
+        <input type="number" id="pairSessions" placeholder="Jumlah sesi parallel (1-10)" value="5">
+        <button id="btnPair">⚡ START SPAM PAIRING</button>
+        <small style="color:#888;">⚠️ Efek: Nomor target kena flood pairing code -> kemungkinan banned/tidak bisa pakai WA</small>
+    </div>
+    
+    <div class="log" id="log"></div>
+</div>
+
+<script>
+    function addLog(msg, isError = false) {
+        const logDiv = document.getElementById('log');
+        const div = document.createElement('div');
+        div.textContent = `[${new Date().toLocaleTimeString()}] ${msg}`;
+        div.className = isError ? 'error' : 'success';
+        logDiv.appendChild(div);
+        div.scrollIntoView();
+    }
+    
+    document.getElementById('btnOtp').onclick = async () => {
+        const phone = document.getElementById('otpPhone').value;
+        const amount = document.getElementById('otpAmount').value;
+        if (!phone) return addLog('Masukkan nomor target!', true);
+        
+        addLog(`🚀 Memulai spam OTP ke ${phone} sebanyak ${amount} request...`);
+        try {
+            const res = await fetch('/api/spam-otp', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ phone, amount: parseInt(amount) })
+            });
+            const data = await res.json();
+            if (data.success) {
+                addLog(`✅ Spam OTP selesai! Total request: ${data.totalRequest}, Berhasil: ${data.successCount}`);
+            } else {
+                addLog(`❌ Gagal: ${data.error}`, true);
+            }
+        } catch(e) {
+            addLog(`Error: ${e.message}`, true);
+        }
+    };
+    
+    document.getElementById('btnPair').onclick = async () => {
+        const phone = document.getElementById('pairPhone').value;
+        const sessions = document.getElementById('pairSessions').value;
+        if (!phone) return addLog('Masukkan nomor target!', true);
+        
+        addLog(`🔥 Memulai pairing spam ke ${phone} dengan ${sessions} sesi parallel...`);
+        try {
+            const res = await fetch('/api/spam-pairing', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ phone, sessions: parseInt(sessions) })
+            });
+            const data = await res.json();
+            if (data.success) {
+                addLog(`✅ Pairing spam berhasil dijalankan! Cek efeknya 5-10 menit lagi.`);
+            } else {
+                addLog(`❌ Gagal: ${data.error}`, true);
+            }
+        } catch(e) {
+            addLog(`Error: ${e.message}`, true);
+        }
+    };
+</script>
+</body>
+</html>
